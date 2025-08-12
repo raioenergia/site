@@ -21,7 +21,26 @@ src/
 └── main.tsx   # Application entry point
 ```
 
-## 🛠 NPM Scripts
+## � Deployment
+
+### GitHub Pages (Automated)
+This project includes a GitHub Action workflow that automatically:
+- ✅ **Builds the static site** on every push to `main`
+- ✅ **Runs TypeScript type checking** to ensure quality
+- ✅ **Deploys to GitHub Pages** using the official actions
+- ✅ **No special branch needed** - deploys directly from `main`
+
+The site will be available at: `https://raioenergia.github.io/site/`
+
+### Manual Deployment
+You can also build and deploy manually:
+
+```bash
+npm run build        # Generates static files in dist/
+# Upload dist/ contents to any static hosting service
+```
+
+## �🛠 NPM Scripts
 
 ```bash
 # Development
