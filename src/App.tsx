@@ -1,23 +1,26 @@
 import React from 'react';
-import { Container, Center, Stack, Title } from '@mantine/core';
+import { MantineProvider } from '@mantine/core';
+import { theme } from './theme';
+import { Header } from './components/Header';
+import { HeroSection } from './components/HeroSection';
+import { HowItWorks } from './components/HowItWorks';
+import { Calculator } from './components/Calculator';
+import { Contact } from './components/Contact';
+import { Footer } from './components/Footer';
+import { FAQ } from './components/FAQ'
 
-const App: React.FC = () => {
-  return (
-    <Container size="md" py="xl">
-      <Center>
-        <Stack gap="sm" ta="center">
-          <Title
-            order={1}
-            size="3rem"
-            fw={900}
-            c="blue"
-          >
-            Raio Energia
-          </Title>
-        </Stack>
-      </Center>
-    </Container>
-  );
-};
+const App: React.FC = () => (
+  <MantineProvider theme={theme}>
+    <div style={{ paddingTop: '80px' }}>
+      <Header />
+      <HeroSection />
+      <HowItWorks />
+      <FAQ />
+      <Calculator />
+      <Contact />
+      <Footer />
+    </div>
+  </MantineProvider>
+);
 
 export default App;
