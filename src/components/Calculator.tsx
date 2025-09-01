@@ -39,11 +39,93 @@ function getDescontoFaixa(valor: number) {
     return 0;
 }
 
-function brincadeiraEconomia(valor: number) {
-    if (valor > 80) return { text: 'Um fim de semana em Tiradentes', emoji: '🏖️' };
-    if (valor > 50) return { text: 'Netflix + Spotify + Amazon Prime', emoji: '📺' };
-    if (valor > 30) return { text: 'Um jantar romântico para dois', emoji: '🍷' };
-    return { text: 'Uma pizza grande todo mês', emoji: '🍕' };
+function brincadeiraEconomia(valorMensal: number) {
+    // Calcular economia anual
+    const valorAnual = valorMensal * 12;
+
+    // Brincadeiras por faixa de valor anual
+    const brincadeiras = {
+        // Faixa alta (R$ 2.400+/ano = R$ 200+/mês)
+        alta: [
+            { emoji: '🏖️', text: 'fazer uma viagem incrível para o litoral' },
+            { emoji: '🚗', text: 'dar entrada num carro usado' },
+            { emoji: '🏠', text: 'guardar para a entrada de uma casa' },
+            { emoji: '💻', text: 'comprar um notebook novo para trabalhar' },
+            { emoji: '🎮', text: 'adquirir um console de videogame' },
+            { emoji: '📱', text: 'trocar de celular por um modelo top' },
+            { emoji: '🚴', text: 'comprar uma bicicleta maneira para pedalar' },
+            { emoji: '🎧', text: 'investir em fones de ouvido profissionais' },
+            { emoji: '📚', text: 'montar uma biblioteca em casa' },
+            { emoji: '🛋️', text: 'trocar o sofá por um mais confortável' }
+        ],
+
+        // Faixa média-alta (R$ 1.200-2.400/ano = R$ 100-200/mês)
+        mediaAlta: [
+            { emoji: '🍷', text: 'conhecer pelo menos 3 restaurantes bacanas da cidade' },
+            { emoji: '🎬', text: 'assistir a um lançamentos do cinema todos os meses' },
+            { emoji: '🛍️', text: 'comprar no mínimo 20 camisetas básicas novas' },
+            { emoji: '🎨', text: 'fazer aulas de arte e pintura' },
+            { emoji: '💃', text: 'aprender a dançar como um profissional' },
+            { emoji: '🌞', text: 'fazer aulas de yoga para relaxar' },
+            { emoji: '🎤', text: 'montar um karaokê em casa' },
+            { emoji: '📷', text: 'comprar uma câmera e aprender a tirar fotos profissionais' },
+            { emoji: '🎢', text: 'conhecer um parque de diversão hilário' },
+            { emoji: '🍽️', text: 'renovar o aparelho de jantar da sua casa' }
+        ],
+
+        // Faixa média (R$ 600-1.200/ano = R$ 50-100/mês)
+        media: [
+            { emoji: '☕', text: 'tomar café gourmet todos os dias' },
+            { emoji: '🍕', text: 'comer uma pizza por mês' },
+            { emoji: '🍦', text: 'tomar sorvete sempre que der vontade' },
+            { emoji: '🎧', text: 'assinar dois streamings de música ou filmes' },
+            { emoji: '📖', text: 'comprar livros interessantes para ler' },
+            { emoji: '🕯️', text: 'encher a casa de velas cheirosas' },
+            { emoji: '🌱', text: 'criar uma horta orgânica em casa' },
+            { emoji: '🧩', text: 'colecionar quebra-cabeças divertidos' },
+            { emoji: '🍹', text: 'curtir drinks nos fins de semana' },
+            { emoji: '🌿', text: 'transformar a casa numa floresta urbana' }
+        ],
+
+        // Faixa baixa (R$ 360-600/ano = R$ 30-50/mês)
+        baixa: [
+            { emoji: '🍔', text: 'comer um hambúrguer artesanal todo mês' },
+            { emoji: '🎟️', text: 'visitar um museus e exposições' },
+            { emoji: '🍫', text: 'comprar guloseimas no supermercado' },
+            { emoji: '🎂', text: 'comemorar um aniversário em grande estilo' },
+            { emoji: '🚕', text: 'pagar seu plano do Uber One' },
+            { emoji: '🛀', text: 'tomar banhos relaxantes com sais' },
+            { emoji: '🍿', text: 'Comprar uma pipoca no cinema todo mês' },
+            { emoji: '🎯', text: 'praticar arco e flecha como hobby' },
+            { emoji: '🌸', text: 'decorar a casa com flores naturais' },
+            { emoji: '💡', text: 'iluminar melhor todos os cômodos' }
+        ],
+
+        // Faixa muito baixa (menos de R$ 360/ano = menos de R$ 30/mês)
+        muitoBaixa: [
+            { emoji: '💼', text: 'comprar uma mala nova para viajar' },
+            { emoji: '👜', text: 'comprar um acessórios fashion no final do ano' },
+            { emoji: '💪🏼', text: 'tomar creatina todos os dias' },
+            { emoji: '⚽️', text: 'jogar pelada uma vez por mês' },
+            { emoji: '🌐', text: 'melhorar seu plano de internet em casa' }
+        ]
+    };
+
+    // Selecionar categoria baseada no valor anual
+    let categoria;
+    if (valorAnual >= 2400) categoria = brincadeiras.alta;
+    else if (valorAnual >= 1200) categoria = brincadeiras.mediaAlta;
+    else if (valorAnual >= 600) categoria = brincadeiras.media;
+    else if (valorAnual >= 360) categoria = brincadeiras.baixa;
+    else categoria = brincadeiras.muitoBaixa;
+
+    // Retornar item aleatório da categoria
+    const item = categoria[Math.floor(Math.random() * categoria.length)];
+
+    return {
+        emoji: item.emoji,
+        text: item.text
+    };
 }
 
 export function Calculator() {
@@ -86,19 +168,18 @@ export function Calculator() {
             });
 
             // ✅ PRIMEIRO ENVIO - Apenas WhatsApp e valor da conta
-            const success = await submitToGoogleScript({
-                whatsapp,
-                email: '', // Vazio no primeiro envio
-                valorConta,
-                economia: valorEconomia
-                // Não enviar arquivos na primeira etapa
-            });
+            // const success = await submitToGoogleScript({
+            //     whatsapp,
+            //     email: '',
+            //     valorConta,
+            //     economia: valorEconomia
+            // });
 
-            if (success) {
-                console.log('✅ Lead inicial capturado!');
-            } else {
-                console.warn('⚠️ Falha no envio inicial, mas continuando...');
-            }
+            // if (success) {
+            //     console.log('✅ Lead inicial capturado!');
+            // } else {
+            //     console.warn('⚠️ Falha no envio inicial, mas continuando...');
+            // }
 
             setCurrentStep(2);
 
@@ -144,8 +225,9 @@ export function Calculator() {
     };
 
     return (
-        <Box py={120} bg="gray.0" id="calculadora">
+        <Box py={120} bg="raioDark.9" id="calculadora"> {/* ✅ Background escuro */}
             <Container size="xl">
+
                 {/* Progress Bar */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
@@ -180,13 +262,32 @@ export function Calculator() {
                         >
                             <Center>
                                 <Stack align="center" maw={700} w="100%">
-                                    <Title order={2} size="3rem" fw={800} c="raioDark.9" ta="center" mb="lg">
+                                    <Title order={2} size="3rem" fw={800} c="gray.0" ta="center">
                                         Economize em 3 passos!
                                     </Title>
 
-                                    <Card padding="xl" radius="xl" bg="white" shadow="lg" w="100%">
-                                        <Stack gap="xl">
+                                    <Text
+                                        size="md"
+                                        c="gray.4"
+                                        maw={500}
+                                        ta="center"
+                                        mb="lg"
+                                    >
+                                        Insira seu número de WhatsApp e o seu consumo mensal de energia
+                                        para descobrir quanto você pode calcular com a Raio Energia.
+                                    </Text>
 
+                                    <Card
+                                        padding="xl"
+                                        radius="xl"
+                                        bg="gray.0" // ✅ Card com fundo cinza muito claro
+                                        shadow="sm"
+                                        w="100%"
+                                        style={{
+                                            border: '1px solid #e9ecef'
+                                        }}
+                                    >
+                                        <Stack gap="xl">
                                             <InputBase
                                                 component={IMaskInput}
                                                 mask="(00) 00000-0000"
@@ -204,6 +305,7 @@ export function Calculator() {
                                                         border: '2px solid #e9ecef',
                                                         fontSize: '18px',
                                                         height: '60px',
+                                                        backgroundColor: 'white', // ✅ Input com fundo branco
                                                         '&:focus': {
                                                             borderColor: '#51cf66'
                                                         }
@@ -212,13 +314,11 @@ export function Calculator() {
                                             />
 
                                             <Box>
-                                                <Box mb="md">
-                                                    <InfiniteSlider
-                                                        value={valorConta}
-                                                        onChange={setValorConta}
-                                                        label="Valor médio da sua conta CEMIG"
-                                                    />
-                                                </Box>
+                                                <InfiniteSlider
+                                                    value={valorConta}
+                                                    onChange={setValorConta}
+                                                    label="Valor médio da sua conta CEMIG"
+                                                />
                                             </Box>
 
                                             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
@@ -227,12 +327,17 @@ export function Calculator() {
                                                     fullWidth
                                                     radius="xl"
                                                     h={70}
-                                                    gradient={{ from: 'raioGreen.5', to: 'raioGreen.6' }}
+                                                    gradient={{ from: 'raioGreen.6', to: 'raioGreen.8' }} // ✅ Gradiente mais forte para contraste
                                                     variant="gradient"
                                                     onClick={handleCalcular}
                                                     loading={loading}
                                                     disabled={!whatsapp.trim()}
-                                                    styles={{ root: { fontSize: '20px', fontWeight: 700 } }}
+                                                    styles={{
+                                                        root: {
+                                                            fontSize: '20px',
+                                                            fontWeight: 700,
+                                                        }
+                                                    }}
                                                 >
                                                     {loading ? 'Calculando...' : 'Ver minha economia'}
                                                 </Button>
@@ -247,7 +352,7 @@ export function Calculator() {
                                     <Center mt="md">
                                         <WhatsAppCTA
                                             title="Dúvidas sobre a calculadora?"
-                                            theme="light"
+                                            theme="dark"
                                         />
                                     </Center>
                                 </Stack>
@@ -266,14 +371,29 @@ export function Calculator() {
                         >
                             <Grid>
                                 {/* Coluna do Resultado */}
-                                <Grid.Col span={{ base: 12, lg: 6 }}>
+                                <Grid.Col
+                                    span={{ base: 12, lg: 6 }}
+                                    style={{ display: 'flex' }} // ✅ Adicionar flex ao Grid.Col
+                                >
                                     <motion.div
                                         initial={{ opacity: 0, y: 30 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.6, delay: 0.2 }}
+                                        style={{ width: '100%' }} // ✅ Garantir largura total
                                     >
-                                        <Card padding="xl" radius="xl" bg="white" shadow="lg" h="100%">
-                                            <Stack gap="lg" align="center" justify="center" h="100%">
+                                        <Card
+                                            padding="xl"
+                                            radius="xl"
+                                            bg="gray.0"
+                                            shadow="sm"
+                                            style={{
+                                                border: '1px solid #e9ecef',
+                                                display: 'flex', // ✅ Card como flex container
+                                                flexDirection: 'column', // ✅ Direção vertical
+                                                height: '100%' // ✅ Altura total
+                                            }}
+                                        >
+                                            <Stack gap="lg" align="center" justify="center" style={{ flex: 1 }}>
                                                 <motion.div
                                                     animate={{ rotate: [0, 10, -10, 0] }}
                                                     transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
@@ -313,14 +433,14 @@ export function Calculator() {
                                                     w="100%"
                                                 >
                                                     <Stack align="center" gap="sm">
-                                                        <Text size="2xl">
+                                                        <Text size="3em">
                                                             {resultado.brincadeira.emoji}
                                                         </Text>
                                                         <Text ta="center" fw={600} size="md" c="raioDark.9">
-                                                            Com essa economia dá para:
+                                                            No ano, com esta economia, você poderá:
                                                         </Text>
                                                         <Text ta="center" size="md" c="raioDark.8" fw={500}>
-                                                            {resultado.brincadeira.text}
+                                                            {resultado.brincadeira.text}!
                                                         </Text>
                                                     </Stack>
                                                 </Box>
@@ -330,20 +450,35 @@ export function Calculator() {
                                 </Grid.Col>
 
                                 {/* Coluna do Formulário */}
-                                <Grid.Col span={{ base: 12, lg: 6 }}>
+                                <Grid.Col
+                                    span={{ base: 12, lg: 6 }}
+                                    style={{ display: 'flex' }} // ✅ Adicionar flex ao Grid.Col
+                                >
                                     <motion.div
                                         initial={{ opacity: 0, y: 30 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.6, delay: 0.4 }}
+                                        style={{ width: '100%' }} // ✅ Garantir largura total
                                     >
-                                        <Card padding="xl" radius="xl" bg="white" shadow="lg" h="100%">
-                                            <Stack gap="lg">
+                                        <Card
+                                            padding="xl"
+                                            radius="xl"
+                                            bg="gray.0"
+                                            shadow="sm"
+                                            style={{
+                                                border: '1px solid #e9ecef',
+                                                display: 'flex', // ✅ Card como flex container
+                                                flexDirection: 'column', // ✅ Direção vertical
+                                                height: '100%' // ✅ Altura total
+                                            }}
+                                        >
+                                            <Stack gap="lg" style={{ flex: 1 }}> {/* ✅ Stack ocupa espaço restante */}
                                                 <Box>
                                                     <Title order={3} size="1.5rem" fw={700} c="raioDark.9" mb="sm">
-                                                        Finalize sua contratação
+                                                        Aproveite esse desconto!
                                                     </Title>
                                                     <Text size="sm" c="raioDark.6">
-                                                        Preencha os dados para garantir seu desconto
+                                                        Preencha os dados abaixo e entraremos em contato com você.
                                                     </Text>
                                                 </Box>
 
@@ -369,6 +504,15 @@ export function Calculator() {
                                                     radius="lg"
                                                     leftSection={<IconMail size={16} />}
                                                     required
+                                                    styles={{
+                                                        input: {
+                                                            backgroundColor: 'white',
+                                                            border: '2px solid #e9ecef',
+                                                            '&:focus': {
+                                                                borderColor: '#51cf66'
+                                                            }
+                                                        }
+                                                    }}
                                                 />
 
                                                 <FileInput
@@ -380,6 +524,12 @@ export function Calculator() {
                                                     radius="lg"
                                                     leftSection={<IconFileUpload size={16} />}
                                                     accept="image/*,application/pdf"
+                                                    styles={{
+                                                        input: {
+                                                            backgroundColor: 'white',
+                                                            border: '2px solid #e9ecef'
+                                                        }
+                                                    }}
                                                 />
 
                                                 <FileInput
@@ -391,28 +541,42 @@ export function Calculator() {
                                                     radius="lg"
                                                     leftSection={<IconId size={16} />}
                                                     accept="image/*,application/pdf"
+                                                    styles={{
+                                                        input: {
+                                                            backgroundColor: 'white',
+                                                            border: '2px solid #e9ecef'
+                                                        }
+                                                    }}
                                                 />
 
-                                                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                                                    <Button
-                                                        size="lg"
-                                                        fullWidth
-                                                        radius="xl"
-                                                        h={60}
-                                                        gradient={{ from: 'raioGreen.5', to: 'raioGreen.6' }}
-                                                        variant="gradient"
-                                                        onClick={handleFinalizar}
-                                                        loading={submitting}
-                                                        disabled={!email}
-                                                        styles={{ root: { fontSize: '18px', fontWeight: 700 } }}
-                                                    >
-                                                        {submitting ? 'Finalizando...' : 'Solicitar contato!'}
-                                                    </Button>
-                                                </motion.div>
+                                                {/* Botão com margin-top auto para ficar no final */}
+                                                <Box style={{ marginTop: 'auto' }}>
+                                                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                                                        <Button
+                                                            size="lg"
+                                                            fullWidth
+                                                            radius="xl"
+                                                            h={60}
+                                                            gradient={{ from: 'raioGreen.6', to: 'raioGreen.8' }}
+                                                            variant="gradient"
+                                                            onClick={handleFinalizar}
+                                                            loading={submitting}
+                                                            disabled={!email}
+                                                            styles={{
+                                                                root: {
+                                                                    fontSize: '18px',
+                                                                    fontWeight: 700,
+                                                                }
+                                                            }}
+                                                        >
+                                                            {submitting ? 'Finalizando...' : 'Solicitar contato!'}
+                                                        </Button>
+                                                    </motion.div>
 
-                                                <Text ta="center" size="xs" c="raioDark.5">
-                                                    🔒 Dados criptografados e seguros
-                                                </Text>
+                                                    <Text ta="center" size="xs" c="raioDark.5" mt="sm">
+                                                        🔒 Dados criptografados e seguros
+                                                    </Text>
+                                                </Box>
                                             </Stack>
                                         </Card>
                                     </motion.div>
@@ -428,6 +592,7 @@ export function Calculator() {
                         </motion.div>
                     )}
 
+
                     {/* STEP 3: Sucesso */}
                     {currentStep === 3 && (
                         <motion.div
@@ -438,7 +603,16 @@ export function Calculator() {
                             transition={{ duration: 0.6 }}
                         >
                             <Center>
-                                <Card padding="3rem" radius="2xl" bg="white" shadow="2xl" maw={600}>
+                                <Card
+                                    padding="3rem"
+                                    radius="2xl"
+                                    bg="gray.0" // ✅ Fundo cinza claro
+                                    shadow="xl"
+                                    maw={600}
+                                    style={{
+                                        border: '1px solid #e9ecef'
+                                    }}
+                                >
                                     <Stack align="center" gap="xl">
                                         <motion.div
                                             animate={{
@@ -450,31 +624,37 @@ export function Calculator() {
                                         </motion.div>
 
                                         <Title order={2} size="2.5rem" fw={800} c="raioDark.9" ta="center">
-                                            Contratação finalizada!
+                                            Entraremos em contato!
                                         </Title>
 
                                         <Text size="lg" c="raioDark.7" ta="center" lh={1.6}>
                                             Parabéns! Seus dados foram enviados com sucesso.
-                                            Nossa equipe entrará em contato pelo WhatsApp <strong>{whatsapp}</strong> em
-                                            até 24h para confirmar sua economia de
-                                            <strong>R$ {
-                                                resultado?.valor.toLocaleString('pt-BR', {
-                                                    minimumFractionDigits: 2,
-                                                    maximumFractionDigits: 2
-                                                })}/mês
+                                            Nossa equipe entrará em contato pelo WhatsApp <strong>{whatsapp}</strong> para
+                                            confirmar sua economia de <strong style={{ color: '#51cf66' }}>
+                                                R$ {
+                                                    resultado?.valor.toLocaleString('pt-BR', {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2
+                                                    })}/mês
                                             </strong>.
                                         </Text>
 
                                         <Button
                                             size="xl"
                                             radius="xl"
-                                            gradient={{ from: 'raioGreen.5', to: 'raioGreen.6' }}
+                                            gradient={{ from: 'raioGreen.6', to: 'raioGreen.8' }} // ✅ Gradiente mais forte
                                             variant="gradient"
                                             leftSection={<IconBrandWhatsapp size={24} />}
                                             component="a"
                                             href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Finalizei minha contratação para economia de R$ ${resultado?.valor.toFixed(2)}/mês. WhatsApp: ${whatsapp}`}
                                             target="_blank"
-                                            styles={{ root: { fontSize: '18px', fontWeight: 700 } }}
+                                            styles={{
+                                                root: {
+                                                    fontSize: '18px',
+                                                    fontWeight: 700,
+                                                    boxShadow: '0 4px 15px rgba(81, 207, 102, 0.4)'
+                                                }
+                                            }}
                                         >
                                             Falar com especialista agora
                                         </Button>

@@ -44,7 +44,7 @@ export function Header() {
                     <Group style={{ cursor: 'pointer' }} onClick={() => scrollToSection('hero')}>
                         <Image
                             onClick={() => handleNavClick('hero')}
-                            src="/raio-logo.jpg"
+                            src="/logo-400x200-transparent-bkg.png"
                             w={scrolled ? 80 : 100}
                             h={scrolled ? 40 : 50}
                             style={{
@@ -106,12 +106,14 @@ export function Header() {
                         >
                             <Button
                                 variant="gradient"
-                                gradient={{ from: 'raioGreen.5', to: 'raioGreen.6' }}
+                                gradient={{ from: 'raioGreen.7', to: 'raioGreen.9' }}
                                 radius="xl"
                                 size="sm"
                                 onClick={() => handleNavClick('calculadora')}
                                 style={{
-                                    boxShadow: '0 2px 8px rgba(0, 255, 136, 0.2)'
+                                    boxShadow: '0 2px 8px rgba(0, 255, 136, 0.3)',
+                                    color: 'white', // Garante texto branco
+                                    fontWeight: 600 // Texto mais destacado
                                 }}
                             >
                                 Calcular sua economia
