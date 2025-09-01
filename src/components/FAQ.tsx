@@ -5,15 +5,15 @@ import { WhatsAppCTA } from './WhatsAppCTA';
 const faqData = [
     {
         question: 'Como funciona o desconto na minha conta de luz?',
-        answer: 'Você receberá créditos de energia solar diretamente na sua conta da CEMIG. Esses créditos são aplicados automaticamente, gerando desconto na sua fatura mensal. O desconto aparece discriminado na sua conta como "Compensação de Energia Elétrica".'
+        answer: 'A Raio Energia vai adicionar créditos de energia solar diretamente na sua conta da CEMIG. Esses créditos são utilizados automaticamente, gerando desconto na sua fatura mensal. O desconto poderá ser visto tanto na conta da CEMIG quanto na Fatura Raio Energia, enviada a você mensalmente.'
     },
     {
         question: 'Preciso instalar algum equipamento na minha casa?',
-        answer: 'Não! Esse é o grande diferencial da Raio Energia. Você não precisa instalar placas solares, inversor ou qualquer equipamento. Continuará sendo atendido normalmente pela CEMIG, mas pagando menos na conta de luz.'
+        answer: 'Não! Você não precisa instalar placas solares, inversor ou qualquer equipamento. Continuará sendo atendido normalmente pela CEMIG, mas pagando menos na conta de luz. Após assinatura da sua adesão, a Raio Energia fará todo o processo para que você garanta seus benefícios.'
     },
     {
         question: 'Quanto posso economizar por mês?',
-        answer: 'A economia varia conforme seu consumo, mas nossos clientes economizam em média entre 10% a 15% na conta de luz. O desconto é aplicado sobre o valor da energia consumida, sempre com preços menores que a CEMIG.'
+        answer: 'A economia varia conforme seu consumo, mas nossos clientes economizam até 15% na conta de luz. O desconto é aplicado sobre o valor da energia consumida, ou seja: aplicamos o desconto no preço que a CEMIG determina mensalmente. Assim, com a Raio Energia você sempre estará pagando menos do que pagaria comparando com o preço da CEMIG.'
     },
     {
         question: 'Há taxa de adesão ou mensalidade?',
@@ -21,22 +21,21 @@ const faqData = [
     },
     {
         question: 'Posso cancelar quando quiser?',
-        answer: 'Sim! O contrato é por prazo indeterminado, sem fidelidade mínima. Você pode cancelar a qualquer momento, quitando apenas os créditos de energia já enviados para sua conta.'
+        answer: 'Sim! O contrato é por prazo indeterminado, sem fidelidade mínima. Você pode cancelar a qualquer momento, quitando apenas os créditos de energia já enviados para sua conta. Esta quitação será feita conforme os créditos forem utilizados mensalmente.'
     },
     {
         question: 'Como sei que estou realmente economizando?',
-        answer: 'O desconto aparece discriminado na sua própria conta da CEMIG. Você pode acompanhar mês a mês quanto está economizando através da "Compensação de Energia Elétrica" que aparece na sua fatura.'
+        answer: 'Você poderá continuar acompanhar a quantidade de energia que consumiu mensalmente na sua conta da CEMIG. Lá, você verá também quantos kilowatts foram compensados pela Raio Energia. Já na fatura Raio Energia, você também verá todo este detalhamento e o preço que foi cobrado pelo kilowatt (com desconto em relação ao da CEMIG).'
     },
     {
         question: 'E se minha conta vier zerada?',
-        answer: 'Mesmo se sua conta vier zerada (quando os créditos cobrem todo o consumo), você ainda pagará a taxa mínima da CEMIG, que inclui iluminação pública e outros encargos obrigatórios.'
+        answer: 'Mesmo se sua conta vier zerada (quando os créditos cobrem todo o consumo), você ainda pagará a taxa mínima da CEMIG, que inclui iluminação pública, consumo mínimo, doações que porventura fizer e outros encargos obrigatórios.'
     }
 ];
 
 export function FAQ() {
-
     return (
-        <Box py={120} bg="raioDark.9" id="faq">
+        <Box py={120} bg="gray.0" id="faq"> {/* ✅ Mudou para bg claro */}
             <Container size="lg">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -45,12 +44,11 @@ export function FAQ() {
                     viewport={{ once: true }}
                 >
                     <Stack align="center" mb={60}>
-
-                        <Title order={2} size="3rem" fw={800} c="white" ta="center">
+                        <Title order={2} size="3rem" fw={800} c="raioDark.9" ta="center"> {/* ✅ Mudou para escuro */}
                             Ainda tem dúvidas?
                         </Title>
 
-                        <Text size="xl" c="gray.4" ta="center" maw={600}>
+                        <Text size="xl" c="raioDark.6" ta="center" maw={600}> {/* ✅ Mudou para cinza escuro */}
                             Tire todas suas dúvidas sobre como economizar
                             na conta de luz com a Raio Energia
                         </Text>
@@ -68,25 +66,30 @@ export function FAQ() {
                         radius="md"
                         styles={{
                             item: {
-                                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                                border: '1px solid rgba(255, 255, 255, 0.1)',
+                                backgroundColor: 'white', // ✅ Fundo branco
+                                border: '1px solid #e9ecef', // ✅ Borda clara
                                 marginBottom: '12px',
-                                '&[dataActive]': {
-                                    backgroundColor: 'rgba(81, 207, 102, 0.1)',
+                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
+                                '&[data-active]': {
+                                    backgroundColor: 'rgba(81, 207, 102, 0.05)', // ✅ Verde claro quando ativo
                                     borderColor: '#51cf66',
+                                    boxShadow: '0 4px 12px rgba(81, 207, 102, 0.1)'
                                 },
                             },
                             control: {
-                                color: 'white',
+                                color: '#212529', // ✅ Texto escuro
                                 fontSize: '16px',
                                 fontWeight: 600,
                                 padding: '16px 20px',
+                                '&:hover': {
+                                    backgroundColor: 'rgba(81, 207, 102, 0.02)'
+                                }
                             },
                             chevron: {
                                 color: '#51cf66',
                             },
                             panel: {
-                                color: '#ced4da',
+                                color: '#495057', // ✅ Cinza escuro
                                 fontSize: '14px',
                                 lineHeight: 1.5,
                                 padding: '0 20px 16px 20px',
@@ -112,7 +115,7 @@ export function FAQ() {
                 {/* CTA Section */}
                 <WhatsAppCTA
                     title="Ainda tem dúvidas?"
-                    theme="dark"
+                    theme="light" // ✅ Mudou para tema claro
                 />
             </Container>
         </Box>
