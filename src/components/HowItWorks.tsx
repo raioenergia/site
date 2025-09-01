@@ -77,7 +77,7 @@ export function HowItWorks() {
                                         <Stack align="center" gap="md">
                                             <Badge
                                                 variant="filled"
-                                                color="raioGreen"
+                                                color="raioGreen.6"
                                                 radius="xl"
                                                 size="sm"
                                             >
