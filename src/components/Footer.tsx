@@ -18,9 +18,15 @@ import {
     IconShield,
     IconBolt
 } from '@tabler/icons-react';
+import { scrollToSection } from '../utils/scroll';
 
 export function Footer() {
     const currentYear = new Date().getFullYear();
+
+    const handleNavClick = (sectionId: string) => {
+        scrollToSection(sectionId);
+        close();
+    };
 
     return (
         <Box
@@ -36,7 +42,7 @@ export function Footer() {
                     <Grid.Col span={{ base: 12, md: 4 }}>
                         <Stack gap="md">
                             <Group>
-                                <Image src="/raio-logo.jpg" w={60} h={30} />
+                                <Image src="/logo-400x200-white-bkg-border-radius.png" w={60} h={30} />
                                 <Text fw={800} size="xl" c="white">
                                     Raio Energia
                                 </Text>
@@ -56,7 +62,7 @@ export function Footer() {
                             </Text>
                             <Stack gap="xs">
                                 <Anchor
-                                    href="#como-funciona"
+                                    onClick={() => handleNavClick('como-funciona')}
                                     c="gray.4"
                                     size="xs"
                                     td="none"
@@ -64,10 +70,21 @@ export function Footer() {
                                     onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#00FF88'}
                                     onMouseLeave={(e) => (e.target as HTMLElement).style.color = '#ADB5BD'}
                                 >
-                                    Como Funciona
+                                    Benefícios
                                 </Anchor>
                                 <Anchor
-                                    href="#calculadora"
+                                    onClick={() => handleNavClick('faq')}
+                                    c="gray.4"
+                                    size="xs"
+                                    td="none"
+                                    style={{ transition: 'color 0.2s' }}
+                                    onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#00FF88'}
+                                    onMouseLeave={(e) => (e.target as HTMLElement).style.color = '#ADB5BD'}
+                                >
+                                    FAQ
+                                </Anchor>
+                                <Anchor
+                                    onClick={() => handleNavClick('calculadora')}
                                     c="gray.4"
                                     size="xs"
                                     td="none"
@@ -142,10 +159,11 @@ export function Footer() {
                                 <Group gap="xs">
                                     <IconMail size={14} color="#00FF88" />
                                     <Anchor
-                                        href="mailto:contato@raioenergia.com.br"
+                                        href="mailto:contato@raioenergia.com.br?subject=Contato%20do%20site&body=Olá,%20gostaria%20de%20entrar%20em%20contato."
                                         c="gray.4"
                                         size="xs"
                                         td="none"
+                                        rel="noopener noreferrer"
                                         style={{ transition: 'color 0.2s' }}
                                         onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#00FF88'}
                                         onMouseLeave={(e) => (e.target as HTMLElement).style.color = '#ADB5BD'}
