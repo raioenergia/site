@@ -30,7 +30,7 @@ import { InputBase } from '@mantine/core';
 import { IMaskInput } from 'react-imask';
 import { WhatsAppCTA } from './WhatsAppCTA'
 import { InfiniteSlider } from './InfiniteSlider';
-import { submitToBrevo } from '../services/brevoService';
+import { submitToGoogleScript } from '../services/googleAppsScriptService';
 
 function getDescontoFaixa(valor: number) {
     if (valor >= 800) return 15;
@@ -168,7 +168,7 @@ export function Calculator() {
             });
 
             // ✅ PRIMEIRO ENVIO - Apenas WhatsApp e valor da conta
-            const success = await submitToBrevo({
+            const success = await submitToGoogleScript({
                 whatsapp,
                 email: '',
                 valorConta,
@@ -200,7 +200,7 @@ export function Calculator() {
         setSubmitting(true);
 
         try {
-            const success = await submitToBrevo({
+            const success = await submitToGoogleScript({
                 whatsapp,
                 email,
                 valorConta,
@@ -605,7 +605,7 @@ export function Calculator() {
                             <Center>
                                 <Card
                                     padding="3rem"
-                                    radius="2xl"
+                                    radius="xl"
                                     bg="gray.0" // ✅ Fundo cinza claro
                                     shadow="xl"
                                     maw={600}

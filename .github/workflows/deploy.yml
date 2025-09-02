@@ -42,7 +42,6 @@ jobs:
         env:
           PUBLIC_PHONE_WHATSAPP: ${{ secrets.PUBLIC_PHONE_WHATSAPP }}
           PUBLIC_GOOGLE_APP_CODE: ${{ secrets.PUBLIC_GOOGLE_APP_CODE }}
-          PUBLIC_BREVO_API_KEY: ${{ secrets.PUBLIC_BREVO_API_KEY }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
