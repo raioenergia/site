@@ -70,7 +70,7 @@ export function FAQ() {
                                 border: '1px solid #e9ecef', // ✅ Borda clara
                                 marginBottom: '12px',
                                 boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
-                                '&[data-active]': {
+                                '&[dataActive]': {
                                     backgroundColor: 'rgba(81, 207, 102, 0.05)', // ✅ Verde claro quando ativo
                                     borderColor: '#51cf66',
                                     boxShadow: '0 4px 12px rgba(81, 207, 102, 0.1)'
