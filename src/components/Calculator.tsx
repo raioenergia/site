@@ -30,7 +30,7 @@ import { InputBase } from '@mantine/core';
 import { IMaskInput } from 'react-imask';
 import { WhatsAppCTA } from './WhatsAppCTA'
 import { InfiniteSlider } from './InfiniteSlider';
-import { submitToGoogleScript } from '../services/googleAppsScriptService'
+import { submitToBrevo } from '../services/brevoService';
 
 function getDescontoFaixa(valor: number) {
     if (valor >= 800) return 15;
@@ -168,18 +168,18 @@ export function Calculator() {
             });
 
             // ✅ PRIMEIRO ENVIO - Apenas WhatsApp e valor da conta
-            // const success = await submitToGoogleScript({
-            //     whatsapp,
-            //     email: '',
-            //     valorConta,
-            //     economia: valorEconomia
-            // });
+            const success = await submitToBrevo({
+                whatsapp,
+                email: '',
+                valorConta,
+                economia: valorEconomia
+            });
 
-            // if (success) {
-            //     console.log('✅ Lead inicial capturado!');
-            // } else {
-            //     console.warn('⚠️ Falha no envio inicial, mas continuando...');
-            // }
+            if (success) {
+                console.log('✅ Lead inicial capturado!');
+            } else {
+                console.warn('⚠️ Falha no envio inicial, mas continuando...');
+            }
 
             setCurrentStep(2);
 
@@ -200,7 +200,7 @@ export function Calculator() {
         setSubmitting(true);
 
         try {
-            const success = await submitToGoogleScript({
+            const success = await submitToBrevo({
                 whatsapp,
                 email,
                 valorConta,
