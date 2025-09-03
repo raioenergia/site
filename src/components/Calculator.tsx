@@ -30,7 +30,7 @@ import { InputBase } from '@mantine/core';
 import { IMaskInput } from 'react-imask';
 import { WhatsAppCTA } from './WhatsAppCTA'
 import { InfiniteSlider } from './InfiniteSlider';
-import { submitToGoogleScript } from '../services/googleAppsScriptService';
+import { submit } from '../services/apiService';
 
 function getDescontoFaixa(valor: number) {
     if (valor >= 800) return 15;
@@ -167,22 +167,18 @@ export function Calculator() {
                 whatsapp
             });
 
-            // ✅ PRIMEIRO ENVIO - Apenas WhatsApp e valor da conta
-            const success = await submitToGoogleScript({
-                whatsapp,
-                email: '',
-                valorConta,
-                economia: valorEconomia
-            });
+            const formData = new FormData();
+            formData.append('whatsapp', whatsapp);
+            formData.append('cemigAvgValue', valorConta.toString());
+            formData.append('calculatedEconomy', valorEconomia.toString());
+
+            const success = await submit(formData);
 
             if (success) {
-                console.log('✅ Lead inicial capturado!');
+                setCurrentStep(2);
             } else {
-                console.warn('⚠️ Falha no envio inicial, mas continuando...');
+                alert('Erro no envio!');
             }
-
-            setCurrentStep(2);
-
         } catch (error) {
             console.error('Erro no cálculo:', error);
             alert('Erro ao processar. Tente novamente.');
@@ -200,22 +196,21 @@ export function Calculator() {
         setSubmitting(true);
 
         try {
-            const success = await submitToGoogleScript({
-                whatsapp,
-                email,
-                valorConta,
-                economia: resultado?.valor || 0,
-                contaCemig,
-                documento
-            });
+            const formData = new FormData();
+            formData.append('whatsapp', whatsapp);
+            formData.append('email', email);
+
+            if (contaCemig && contaCemig.size > 0) formData.append('cemigFile', contaCemig);
+            if (documento && documento.size > 0) formData.append('idDoc', documento);
+
+            const success = await submit(formData);
 
             if (success) {
-                console.log('✅ Dados salvos no Google Sheets!');
                 setCurrentStep(3);
             } else {
+                console.error('Erro ao salvar dados');
                 alert('Erro ao enviar dados. Tente novamente.');
             }
-
         } catch (error) {
             console.error('Erro:', error);
             alert('Erro ao processar. Tente novamente.');
